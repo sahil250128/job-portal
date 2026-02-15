@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - SmartHire</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>SmartHire Dashboard</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applied.html">Applied Jobs</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Your Activity</h2>
+    <h3>Total Applied Jobs: <span id="totalJobs">0</span></h3>
+    <ul id="jobList"></ul>
+</section>
+
+<script>
+    const jobList = document.getElementById("jobList");
+    const totalJobs = document.getElementById("totalJobs");
+
+    let appliedJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
+
+    totalJobs.innerText = appliedJobs.length;
+
+    appliedJobs.forEach((job, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            ${job}
+            <button onclick="removeJob(${index})">Remove</button>
+        `;
+        jobList.appendChild(li);
+    });
+
+    function removeJob(index) {
+        appliedJobs.splice(index, 1);
+        localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
