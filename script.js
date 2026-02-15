@@ -7,11 +7,15 @@ applyButtons.forEach(button => {
 
             let appliedJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
 
-            appliedJobs.push(jobTitle);
+            if (appliedJobs.includes(jobTitle)) {
+                alert("You have already applied for this job!");
+                return;
+            }
 
+            appliedJobs.push(jobTitle);
             localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
 
-            alert("Applied for " + jobTitle);
+            alert("Successfully applied for " + jobTitle);
         });
     }
 });
