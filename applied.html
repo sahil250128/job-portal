@@ -21,14 +21,28 @@
 
 <script>
     const jobList = document.getElementById("jobList");
-    const appliedJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
+    let appliedJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
 
-    appliedJobs.forEach(job => {
-        const li = document.createElement("li");
-        li.innerText = job;
-        jobList.appendChild(li);
-    });
+    function renderJobs() {
+        jobList.innerHTML = "";
+
+        appliedJobs.forEach((job, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                ${job}
+                <button onclick="removeJob(${index})">Remove</button>
+            `;
+            jobList.appendChild(li);
+        });
+    }
+
+    function removeJob(index) {
+        appliedJobs.splice(index, 1);
+        localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
+        renderJobs();
+    }
+
+    renderJobs();
 </script>
-
 </body>
 </html>
