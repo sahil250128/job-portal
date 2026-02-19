@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - SmartHire</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="dashboard.html">User Dashboard</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Admin Overview</h2>
+
+    <h3>Total Applications: <span id="totalApps">0</span></h3>
+
+    <canvas id="jobChart" width="400" height="200"></canvas>
+</section>
+
+<script>
+    const appliedJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
+    document.getElementById("totalApps").innerText = appliedJobs.length;
+
+    // Count applications per job
+    let jobCount = {};
+
+    appliedJobs.forEach(job => {
+        jobCount[job] = (jobCount[job] || 0) + 1;
+    });
+
+    const labels = Object.keys(jobCount);
+    const data = Object.values(jobCount);
+
+    const ctx = document.getElementById('jobChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Applications per Job',
+                data: data,
+                backgroundColor: 'rgba(0, 114, 255, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "white"
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "white" }
+                },
+                y: {
+                    ticks: { color: "white" }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
